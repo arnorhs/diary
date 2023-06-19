@@ -8,7 +8,15 @@ Usage: diary [date]
   date: YYYY/MM/DD (accepts /, -, ., ;, as delimeters)
 ```
 
-## Setup / configuration
+## Setup / configuration / installation
+
+Download or clone this repo, move the diary script to your bash bin path .. eg. ~/bin if you
+are using that, or just simply prepend the diaryd directory script somewhere in your
+`PATH`.. eg. adding to your `.bashrc`/`.zshrc`:
+
+```sh
+export PATH=$PATH:$HOME/path/to/wherever/you/downloaded/diary
+```
 
 The diary requires some environment variables, that you can set either by adding them
 to your `.bashrc`/`.zshrc`, or using [https://direnv.net/](direnv), or manually by preceding
