@@ -1,0 +1,53 @@
+#!/bin/bash
+
+if [[ "$1" = "help" || "$1" = "--help" ]]; then
+  echo "Usage: diary [date]"
+  echo "  date: YYYY/MM/DD (accepts /, -, ., ;, as delimeters)"
+  echo "get info/config: diary info"
+  exit 0
+fi
+
+if [[ -z "$DIARY_EDITOR" || -z "$DIARY_DIRECTORY" || -z "$DIARY_TEMPLATE" ]]; then
+  echo "DIARY_EDITOR, DIARY_DIRECTORY, or DIARY_TEMPALTE not set"
+  echo "Please set them as environment variables"
+  echo "example for ~/.bashrc or ~/.zshrc:"
+  echo "  export DIARY_EDITOR=vim"
+  echo "  export DIARY_DIRECTORY=~/diary"
+  echo "  export DIARY_TEMPLATE=~/diary/template.txt"
+  echo "example if you want to manually set them:"
+  echo "  DIARY_EDITOR=vim DIARY_DIRECTORY=~/diary DIARY_TEMPLATE=~/diary/template.txt diary"
+  exit 1
+fi
+
+if [[ "$1" = "info" || "$1" = "--info" ]]; then
+  echo "DIARY_EDITOR: $DIARY_EDITOR"
+  echo "DIARY_DIRECTORY: $DIARY_DIRECTORY"
+  echo "DIARY_TEMPLATE: $DIARY_TEMPLATE - contents:"
+  cat "$DIARY_TEMPLATE"
+  exit 0
+fi
+
+CURRENT_MONTH_DAY=$(date +"%Y/%m/%d")
+
+# gives YYYY/MM/DD from input date
+YMD=$(echo ${1:-"$CURRENT_MONTH_DAY"} | tr "\-;." "/")
+
+YM=$(echo $YMD | grep -Eo "^[0-9]{4}\/[0-9]{2}")
+D=$(echo $YMD | grep -Eo "[0-9]{2}$")
+
+if [[ ${#YM} -ne 7  || ${#D} -ne 2 ]]; then
+  echo "Invalid date?"
+  exit 1
+fi
+
+mkdir -p "$DIARY_DIRECTORY/$YM"
+
+if [ ! -f "$DIARY_DIRECTORY/$YM/$D.txt" ]; then
+  echo "Creating new entry for $YM/$D"
+  touch "$DIARY_DIRECTORY/$YM/$D.txt"
+  cat "$DIARY_TEMPLATE" >> "$DIARY_DIRECTORY/$YM/$D.txt"
+fi
+
+$DIARY_EDITOR "$DIARY_DIRECTORY/$YM/$D.txt"
+
+
