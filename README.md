@@ -1,11 +1,15 @@
 # my diary
 
-bash-based diary - writes to current directory as YYYY/MM/DD.txt
+bash-based diary organized as directories/folders - writes to files as YYYY/MM/DD.txt
+with a template inserted at the top.
 
 ## usage:
-```sh
+Just type `diary` and write in your editor of choice
+
+```
 Usage: diary [date]
   date: YYYY/MM/DD (accepts /, -, ., ;, as delimeters)
+get info/config: diary info
 ```
 
 ## Setup / configuration / installation
@@ -19,7 +23,7 @@ export PATH=$PATH:$HOME/path/to/wherever/you/downloaded/diary
 ```
 
 The diary requires some environment variables, that you can set either by adding them
-to your `.bashrc`/`.zshrc`, or using [https://direnv.net/](direnv), or manually by preceding
+to your `.bashrc`/`.zshrc`, or using [direnv](https://direnv.net/), or manually by preceding
 the command with your environment variables.. (maybe ok for trying out)
 
 Required environment variables to be set:
